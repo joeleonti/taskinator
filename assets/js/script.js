@@ -200,15 +200,38 @@ var dropZoneDragHandler = function (event) {
     }
 };
 
+var dropTaskHandler = function (even) {
+    var id = event.dataTransfer.getData("text/plain");
+    var draggableElement = document.querySelector("[data-task-id='" + id + "']");
+    var dropZoneEl = event.target.closest(".task-list");
+    var statusType = dropZoneEl.id;
+    // set status of task based on dropZone id
+    var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+
+    if (statusType == "task-to-do") {
+        statusSelectEl.selectedIndex = 0;
+    }
+    else if (statusType == "tasks-in-progress") {
+        statusSelectEl.selectedIndex = 1;
+    }
+    else if (statusType == "tasks-completed") {
+        statusSelectEl.selectIndex = 2;
+    }
+
+    dropZoneEl.appendChild(draggableElement);
+
+};
+
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 
 
 pageContentEl.addEventListener("dragstart", dragTaskHandler);
 
 
+pageContentEl.addEventListener("drop", dropTaskHandler);
+
 
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
-
 
 
 pageContentEl.addEventListener("click", taskButtonHandler);
